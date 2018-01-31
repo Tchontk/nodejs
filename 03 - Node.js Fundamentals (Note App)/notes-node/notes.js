@@ -1,5 +1,5 @@
 console.log('Starting notes.js');
-console.log(module.exports);
+// console.log(module.exports);
 
 module.exports.addNote = () => {
   console.log('addNote');
