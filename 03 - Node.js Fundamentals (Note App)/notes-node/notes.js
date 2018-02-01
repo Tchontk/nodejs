@@ -12,8 +12,35 @@ console.log('Starting notes.js');
 //   return a + b;
 // };
 
+const fs = require('fs'); // https://nodejs.org/api/fs.html
+
+var getNotes = () => {
+  var notes = []
+  try {
+    var notesString = fs.readFileSync('notes-data.json')
+    notes = JSON.parse(notesString)
+  } catch (err) {
+    //console.log(err);
+  }
+  return notes
+}
+
 var addNote = (title, body) => {
-  console.log('Adding note : ', title, body);
+  var notes = getNotes();
+  var note = {
+    title,
+    body
+  }
+
+  var duplicateNotes = notes.filter((note) => {
+    return note.title === title;
+  })
+  console.log('duplicateNotes', duplicateNotes);
+
+  if (duplicateNotes.length === 0) {
+    notes.push(note)
+    fs.writeFileSync('notes-data.json', JSON.stringify(notes))
+  }
 }
 
 var getAll = () => {

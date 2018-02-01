@@ -17,7 +17,7 @@
 const fs = require('fs'); // https://nodejs.org/api/fs.html
 
 var originalNote = {
-  title: 'Some title',
+  title: 'Some !',
   body: 'Some body'
 }
 var originalNoteString = JSON.stringify(originalNote)
