@@ -13,33 +13,35 @@ console.log('Starting notes.js');
 // };
 
 const fs = require('fs'); // https://nodejs.org/api/fs.html
+const _ = require('lodash')
 
-var getNotes = () => {
-  var notes = []
+var fetchNotes = (fileName) => {
   try {
-    var notesString = fs.readFileSync('notes-data.json')
-    notes = JSON.parse(notesString)
+    var notesString = fs.readFileSync(fileName)
+    return JSON.parse(notesString)
   } catch (err) {
-    //console.log(err);
+    return []
   }
-  return notes
+}
+
+var saveNotes = (notes, fileName) => {
+  fs.writeFileSync(fileName, JSON.stringify(notes))
 }
 
 var addNote = (title, body) => {
-  var notes = getNotes();
+  var fileName = 'notes-data.json'
+  var notes = fetchNotes(fileName);
   var note = {
     title,
     body
   }
-
   var duplicateNotes = notes.filter((note) => {
     return note.title === title;
   })
-  console.log('duplicateNotes', duplicateNotes);
-
   if (duplicateNotes.length === 0) {
     notes.push(note)
-    fs.writeFileSync('notes-data.json', JSON.stringify(notes))
+    saveNotes(notes, fileName)
+    return note
   }
 }
 
@@ -48,7 +50,13 @@ var getAll = () => {
 }
 
 var removeNote = (title) => {
-  console.log('Remove : ', title);
+  var fileName = 'notes-data.json'
+  var notes = fetchNotes(fileName);
+
+  // var filteredNotes = notes.filter((note) => note.title !== title)
+  var removedNotes = _.remove(notes, note => note.title === title)
+  saveNotes(notes, fileName)
+  return (removedNotes.length === 0 ? false : true)
 }
 
 var getNote = (title) => {

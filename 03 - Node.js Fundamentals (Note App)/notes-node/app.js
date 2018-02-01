@@ -16,13 +16,23 @@ var command = process.argv[2];
 console.log('Command : ', command);
 
 if (command === 'add') {
-  notes.addNote(argv.title, argv.body)
+  var note = notes.addNote(argv.title, argv.body)
+  if (note) {
+    console.log('Note created !')
+    console.log('--');
+    console.log('Title: ' + note.title);
+    console.log(`Body: ${note.body}`);
+  } else {
+    console.log('Note title token')
+  }
 } else if (command === 'list') {
   notes.getAll()
 } else if (command === 'read') {
   notes.getNote(argv.title)
 } else if (command === 'remove') {
-  notes.removeNote(argv.title)
+  let noteRemove = notes.removeNote(argv.title)
+  var message = noteRemove ? 'Note was remove' : 'Note not found'
+  console.log(message);
 } else {
   console.log('Command not recognized');
 }
