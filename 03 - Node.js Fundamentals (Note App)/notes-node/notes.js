@@ -38,6 +38,7 @@ var addNote = (title, body) => {
   var duplicateNotes = notes.filter((note) => {
     return note.title === title;
   })
+  debugger;
   if (duplicateNotes.length === 0) {
     notes.push(note)
     saveNotes(notes, fileName)
@@ -65,9 +66,17 @@ var getNote = (title) => {
   return filteredNotes[0]
 }
 
+var logNote = (note) => {
+  console.log('--');
+  console.log('Title: ' + note.title);
+  console.log(`Body: ${note.body}`);
+}
+
+
 module.exports = {
   addNote,
   getAll,
   removeNote,
-  getNote
+  getNote,
+  logNote
 };

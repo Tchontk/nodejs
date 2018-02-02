@@ -15,17 +15,12 @@ const argv = yargs.argv;
 var command = process.argv[2];
 // console.log('Command : ', command);
 
-var logNote = (note) => {
-  console.log('--');
-  console.log('Title: ' + note.title);
-  console.log(`Body: ${note.body}`);
-}
-
 if (command === 'add') {
   var note = notes.addNote(argv.title, argv.body)
+  debugger;
   if (note) {
     console.log('Note created !')
-    logNote(note)
+    notes.logNote(note)
   } else {
     console.log('Note title token')
   }
@@ -35,7 +30,7 @@ if (command === 'add') {
   var note = notes.getNote(argv.title)
   if (note) {
     console.log('Note found !')
-    logNote(note)
+    notes.logNote(note)
   } else {
     console.log('Note not found')
   }
