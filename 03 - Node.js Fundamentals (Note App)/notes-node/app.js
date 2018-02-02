@@ -7,7 +7,32 @@ const notes = require('./notes.js');
 const _ = require('lodash')
 const yargs = require('yargs')
 
-const argv = yargs.argv;
+const commandDescription = {
+  title: {
+    describe: 'Title of note',
+    demand: true,
+    alias: 't'
+  },
+  body: {
+    describe: 'Body of note',
+    demand: true,
+    alias: 'b'
+  }
+}
+
+const argv = yargs
+  .command('add', 'Add a new note', {
+    title: commandDescription.title,
+    body: commandDescription.body
+  })
+  .command('list', 'List all note')
+  .command('remove', 'Remove a note', {
+    title: commandDescription.title
+  })
+  .command('read', 'Read a note', {
+    title: commandDescription.title
+  })
+  .help().argv;
 // node app.js read --title="secrets 2"
 // node app.js read --title "secrets 2"
 // console.log('Process :', process.argv);
