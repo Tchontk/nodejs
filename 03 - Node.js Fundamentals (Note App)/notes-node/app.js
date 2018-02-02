@@ -1,4 +1,4 @@
-console.log('Starting app.js');
+// console.log('Starting app.js');
 
 const fs = require('fs'); // https://nodejs.org/api/fs.html
 // const os = require('os'); // https://nodejs.org/api/os.html
@@ -25,12 +25,14 @@ if (command === 'add') {
     console.log('Note title token')
   }
 } else if (command === 'list') {
-  notes.getAll()
+  var allNotes = notes.getAll()
+  console.log(`Printing ${allNotes.length} note(s).`);
+  allNotes.forEach(note => notes.logNote(note));
 } else if (command === 'read') {
   var note = notes.getNote(argv.title)
   if (note) {
     console.log('Note found !')
-    notes.logNote(note)
+    note.logNote(note)
   } else {
     console.log('Note not found')
   }
