@@ -10,25 +10,35 @@ const yargs = require('yargs')
 const argv = yargs.argv;
 // node app.js read --title="secrets 2"
 // node app.js read --title "secrets 2"
-console.log('Process :', process.argv);
-console.log('yargs :', argv);
+// console.log('Process :', process.argv);
+// console.log('yargs :', argv);
 var command = process.argv[2];
-console.log('Command : ', command);
+// console.log('Command : ', command);
+
+var logNote = (note) => {
+  console.log('--');
+  console.log('Title: ' + note.title);
+  console.log(`Body: ${note.body}`);
+}
 
 if (command === 'add') {
   var note = notes.addNote(argv.title, argv.body)
   if (note) {
     console.log('Note created !')
-    console.log('--');
-    console.log('Title: ' + note.title);
-    console.log(`Body: ${note.body}`);
+    logNote(note)
   } else {
     console.log('Note title token')
   }
 } else if (command === 'list') {
   notes.getAll()
 } else if (command === 'read') {
-  notes.getNote(argv.title)
+  var note = notes.getNote(argv.title)
+  if (note) {
+    console.log('Note found !')
+    logNote(note)
+  } else {
+    console.log('Note not found')
+  }
 } else if (command === 'remove') {
   let noteRemove = notes.removeNote(argv.title)
   var message = noteRemove ? 'Note was remove' : 'Note not found'

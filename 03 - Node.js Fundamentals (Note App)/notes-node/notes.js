@@ -52,7 +52,6 @@ var getAll = () => {
 var removeNote = (title) => {
   var fileName = 'notes-data.json'
   var notes = fetchNotes(fileName);
-
   // var filteredNotes = notes.filter((note) => note.title !== title)
   var removedNotes = _.remove(notes, note => note.title === title)
   saveNotes(notes, fileName)
@@ -60,7 +59,10 @@ var removeNote = (title) => {
 }
 
 var getNote = (title) => {
-  console.log('Read : ', title);
+  var fileName = 'notes-data.json'
+  var notes = fetchNotes(fileName);
+  var filteredNotes = notes.filter((note) => note.title === title)
+  return filteredNotes[0]
 }
 
 module.exports = {
