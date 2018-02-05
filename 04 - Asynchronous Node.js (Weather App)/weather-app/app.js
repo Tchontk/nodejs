@@ -2,13 +2,6 @@ const yargs = require('yargs');
 const geocode = require('./geocode/geocode');
 
 const argv = yargs // eslint-disable-line
-  // .command('search', 'Search address', {
-  //     address: {
-  //         describe: 'adress',
-  //         demand: true,
-  //         alias: 'a'
-  //     }
-  // })
   .options({
     address: {
       a: {
@@ -23,4 +16,10 @@ const argv = yargs // eslint-disable-line
   .alias('help', 'h')
   .argv;
 
-geocode.geocodeAddress(argv.a);
+geocode.geocodeAddress(argv.a, (errorMessage, results) => {
+  if (errorMessage) {
+    console.log(errorMessage);
+  } else {
+    console.log(JSON.stringify(results, undefined, 2));
+  }
+});
