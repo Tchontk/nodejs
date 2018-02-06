@@ -9,11 +9,13 @@ var asyncAdd = (a, b) => {
     }, 2000);
   })
 }
-asyncAdd(1, 5).then((resolve) => {
-  console.log(resolve);
-}, (reject) => {
-  console.log(reject);
-
+asyncAdd(1, 6).then((resolve) => {
+  console.log('Result 1 : ', resolve);
+  return asyncAdd(resolve, "a");
+}).then((res) => {
+  console.log('Result 2 : ', res);
+}).catch((reject) => {
+  console.log('reject : ', reject);
 })
 
 // var somePromise = new Promise((resolve, reject) => {
