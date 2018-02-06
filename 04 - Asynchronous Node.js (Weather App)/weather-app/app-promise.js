@@ -15,25 +15,28 @@ const argv = yargs // eslint-disable-line
   .alias('help', 'h')
   .argv;
 
+const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=`
+const weatherUrl = `https://api.darksky.net/forecast/`
 const encodedAddress = encodeURIComponent(argv.address);
-var geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodedAddress}`
 
-axios.get(geocodeUrl)
+const geocodeUrlSearch = `${geocodeUrl}${encodedAddress}`
+
+axios.get(geocodeUrlSearch)
   .then((response) => {
     if (response.data.status === 'ZERO_RESULTS') {
       throw new Error('Unable to find that address')
     } else if (response.data.status === 'OVER_QUERY_LIMIT') {
       throw new Error(response.data.status)
     } else {
-      var latitude = response.data.results[0].geometry.location.lat
-      var longitude = response.data.results[0].geometry.location.lng
-      var weatherUrl = `https://api.darksky.net/forecast/${APIKey.API_KEY_WEATHER}/${latitude},${longitude}`
+      const latitude = response.data.results[0].geometry.location.lat
+      const longitude = response.data.results[0].geometry.location.lng
+      const weatherUrlSearch = `${weatherUrl}${APIKey.API_KEY_WEATHER}/${latitude},${longitude}`
       console.log(response.data.results[0].formatted_address);
-      return axios.get(weatherUrl)
+      return axios.get(weatherUrlSearch)
     }
   }).then((response) => {
-    var temperature = response.data.currently.temperature;
-    var apparentTemperature = response.data.currently.apparentTemperature;
+    const temperature = response.data.currently.temperature;
+    const apparentTemperature = response.data.currently.apparentTemperature;
     console.log(`Currently ${temperature}. It feels like ${apparentTemperature}`);
   }).catch((error) => {
     if (error.code === 'ENOTFOUND') {
