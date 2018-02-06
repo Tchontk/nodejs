@@ -13,3 +13,4 @@ APIKey.js
 *.ntvs*
 *.njsproj
 *.sln
+*.log
