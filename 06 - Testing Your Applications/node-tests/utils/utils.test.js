@@ -1,4 +1,6 @@
+const expect = require('expect')
 const utils = require('./utils')
+
 it('Should add two numbers', () => {
   res = utils.add(33, 11)
   if (res !== 44) {
