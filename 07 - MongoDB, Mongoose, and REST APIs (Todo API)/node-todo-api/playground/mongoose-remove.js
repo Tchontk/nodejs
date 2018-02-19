@@ -1,20 +1,28 @@
-const {ObjectID} = require('mongodb');
+const { moongose } = require('./../server/db/mongoose')
+const { Todo } = require('./../server/models/todo')
+const { ObjectId } = require('mongodb')
 
-const {mongoose} = require('./../server/db/mongoose');
-const {Todo} = require('./../server/models/todo');
-const {User} = require('./../server/models/user');
+var id = '5a84a02b2d9c00f44947858'
 
-// Todo.remove({}).then((result) => {
-//   console.log(result);
-// });
+if (!ObjectId.isValid(id)) {
+  console.log('ID not valid');
+}
 
-// Todo.findOneAndRemove
-// Todo.findByIdAndRemove
+Todo.remove({
+  text: 'hello'
+}).then((todos) => {
+  console.log('Todos', todos);
+})
 
-// Todo.findOneAndRemove({_id: '57c4610dbb35fcbf6fda1154'}).then((todo) => {
-//
-// });
+Todo.findOne({
+  _id: id
+}).then((todo) => {
+  console.log('Todo', todo);
+})
 
-Todo.findByIdAndRemove('57c4610dbb35fcbf6fda1154').then((todo) => {
-  console.log(todo);
-});
+Todo.findById(id).then((todo) => {
+  if (!todo) {
+    return console.log('Id not found');
+  }
+  console.log('Todos By Id', todo);
+}).catch((e) => console.log(e));

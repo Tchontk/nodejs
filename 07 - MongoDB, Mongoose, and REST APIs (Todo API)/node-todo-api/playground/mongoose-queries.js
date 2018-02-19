@@ -1,12 +1,6 @@
-const {
-  moongose
-} = require('./../server/db/mongoose')
-const {
-  Todo
-} = require('./../server/models/todo')
-const {
-  ObjectId
-} = require('mongodb')
+const { moongose } = require('./../server/db/mongoose')
+const { Todo } = require('./../server/models/todo')
+const { ObjectId } = require('mongodb')
 
 var id = '5a84a02b2d9c00f44947858'
 
