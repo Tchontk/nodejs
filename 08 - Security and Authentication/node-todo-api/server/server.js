@@ -112,10 +112,14 @@ app.post('/users', (req, res) => {
 app.get('/users/me', (req, res) => {
   var token = req.header('x-auth')
 
-  User.findOneByToken(token).then((user) => {
+  User.findByToken(token).then((user) => {
     if (!user) {
-      console.log('error');
-    } else {}
+      return new Promise.reject()
+    } else {
+      res.header('x-auth', token).send(user)
+    }
+  }).catch((e) => {
+    res.status(401).send()
   })
 })
 
