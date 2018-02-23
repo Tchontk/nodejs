@@ -6,7 +6,7 @@ dist/
 npm-debug.log
 yarn-error.log
 APIKey.js
-
+config.json
 # Editor directories and files
 .idea
 *.suo
