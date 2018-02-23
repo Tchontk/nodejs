@@ -114,8 +114,23 @@ app.get('/users/me', authenticate, (req, res) => {
   res.header('x-auth', req.token).send(req.user)
 })
 
+app.delete('/users/me/token', authenticate, (req, res) => {
+  req.user.removeToken(req.token).then(() => {
+    res.status(200).send()
+  }, () => {
+    res.status(400).send()
+  })
+})
+
 app.listen(port, () => {
   console.log(`Started up at port ${port}`);
 });
 
 module.exports = { app };
+/*
+https://github.com/amandeepmittal/nodejs-restapi/blob/master/app.js
+app.route("/tasks/:taskid")
+  .get(taskController.readTask)
+  .put(taskController.updateTask)
+  .delete(taskController.deleteTask);
+*/
