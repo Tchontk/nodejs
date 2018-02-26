@@ -81,7 +81,7 @@ UserSchema.statics.findByToken = function(token) {
   })
 }
 
-UserSchema.statics.findByCredential = function(email, password) {
+UserSchema.statics.findByCredentials = function(email, password) {
   var User = this;
   return User.findOne({
     email: email
