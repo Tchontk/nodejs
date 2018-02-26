@@ -61,7 +61,7 @@ app.get('/todos/:id', authenticate, (req, res) => {
     });
 });
 
-app.delete('/todos/:id', (req, res) => {
+app.delete('/todos/:id', authenticate, (req, res) => {
   var id = req.params.id;
 
   if (!ObjectID.isValid(id)) {
@@ -69,7 +69,11 @@ app.delete('/todos/:id', (req, res) => {
   }
 
   Todo
-    .findByIdAndRemove(id).then((todo) => {
+    .findOneAndRemove({
+      _id: id,
+      _creator: req.user._id
+    })
+    .then((todo) => {
       if (!todo) {
         return res.status(404).send();
       }
@@ -81,7 +85,7 @@ app.delete('/todos/:id', (req, res) => {
     });
 });
 
-app.patch('/todos/:id', (req, res) => {
+app.patch('/todos/:id', authenticate, (req, res) => {
   var id = req.params.id;
   var body = _.pick(req.body, ['text', 'completed']);
 
@@ -97,7 +101,7 @@ app.patch('/todos/:id', (req, res) => {
   }
 
   Todo
-    .findByIdAndUpdate(id, { $set: body }, { new: true }).then((todo) => {
+    .findOneAndUpdate({ _id: id, _creator: req.user._id }, { $set: body }, { new: true }).then((todo) => {
       if (!todo) {
         return res.status(404).send();
       }
@@ -126,10 +130,24 @@ app.post('/users', (req, res) => {
     })
 });
 
+// GET / users/me
 app.get('/users/me', authenticate, (req, res) => {
   res.header('x-auth', req.token).send(req.user)
 })
 
+// POST /users/login
+app.post('/users/login', (req, res) => {
+  var body = _.pick(req.body, ['email', 'password']);
+  User.findByCredential(body.email, body.password).then((user) => {
+    return user.generateAuthToken().then((token) => {
+      res.header('x-auth', token).send(user)
+    }).catch((e) => {
+      res.status(400).send()
+    })
+  })
+})
+
+// DELETE /users/me/token
 app.delete('/users/me/token', authenticate, (req, res) => {
   req.user
     .removeToken(req.token)
