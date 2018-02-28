@@ -60,7 +60,53 @@ const getStatus = (userId) => {
     })
 }
 
-let userId = 3
+const getStatusAlt = async (userId) => {
+  const user = await getUser(userId)
+  const grades = await getGrades(user.schoolId)
+  let average = 0
+  if (grades.length > 0) {
+    average = grades.map((grade) => grade.grade).reduce((a, b) => a + b) / grades.length
+  }
+  return `${user.name} has a ${average}% in the class.`
+}
+
+/*
+const getPromise = () => {
+  return new Promise((resolve, reject) => {
+    if (false) {
+      reject('Erreur')
+    } else {
+      resolve('Mike!')
+    }
+  })
+}
+
+// async await
+const getAsync = async () => {
+  // throw new Error('Erreur'); //reject
+  return 'Mike' // Promise { 'Mike' } - return = resolve 
+}
+
+getAsync().then((name) => {
+  console.log('getPromise then : ', name);
+}).catch((e) => {
+  console.log(e);
+})
+
+console.log('getAsync : ', getAsync(3))
+console.log('getPromise : ', getPromise(3))
+
+*/
+
+let userId = 2
+
+getStatusAlt(userId) // userId
+  .then((status) => {
+    console.log('getStatusAlt : ', status);
+  })
+  .catch((e) => {
+    console.log('getStatusAlt : ', e);
+  })
 
 getStatus(userId) // userId
   .then((status) => {
@@ -69,7 +115,7 @@ getStatus(userId) // userId
   .catch((e) => {
     console.log('getStatus : ', e);
   })
-
+/*
 // Without reject ==> Empty array
 getGrades(99) // schoolId
   .then((grades) => {
@@ -86,3 +132,4 @@ getUser(userId) // userId
   .catch((e) => {
     console.log('getUser : ', e);
   })
+  */
