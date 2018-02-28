@@ -10,8 +10,9 @@ const restCountriesUrl = `https://restcountries.eu/rest/v2/currency/`
 const fixerUrlSearch = fixerUrl + base
 const restCountriesUrlSearch = restCountriesUrl + base
 console.log(restCountriesUrlSearch);
+console.log(fixerUrl);
 
-const getRates = async (userId) => {
+const getRates = async () => {
   const rates = await axios.get(fixerUrlSearch)
   const restCountries = await axios.get(restCountriesUrlSearch)
   console.log(rates.data.rates);
