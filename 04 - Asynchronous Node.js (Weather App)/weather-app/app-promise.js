@@ -21,7 +21,8 @@ const encodedAddress = encodeURIComponent(argv.address);
 
 const geocodeUrlSearch = `${geocodeUrl}${encodedAddress}`
 
-axios.get(geocodeUrlSearch)
+axios
+  .get(geocodeUrlSearch)
   .then((response) => {
     if (response.data.status === 'ZERO_RESULTS') {
       throw new Error('Unable to find that address')
@@ -34,11 +35,13 @@ axios.get(geocodeUrlSearch)
       console.log(response.data.results[0].formatted_address);
       return axios.get(weatherUrlSearch)
     }
-  }).then((response) => {
+  })
+  .then((response) => {
     const temperature = response.data.currently.temperature;
     const apparentTemperature = response.data.currently.apparentTemperature;
     console.log(`Currently ${temperature}. It feels like ${apparentTemperature}`);
-  }).catch((error) => {
+  })
+  .catch((error) => {
     if (error.code === 'ENOTFOUND') {
       console.log('Unable to connect to API server');
     } else {
